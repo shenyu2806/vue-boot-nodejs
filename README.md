@@ -22,3 +22,6 @@ cnpm i express-jwt
 #express-joi
 cnpm install @escook/express-joi
 cnpm install joi@17.4.0
+#上传头像
+cnpm install --save multer
+cnpm i fs

@@ -1,4 +1,4 @@
-//
+//导入
 const db =require('../db/index.js')
 const bcrypt =require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -63,9 +63,7 @@ exports.login = (req,res)=>{
 	const loginfo = req.body
 	const sql='select * from users where account = ?'
 	db.query(sql,loginfo.account,(err,results) => {
-		if(err){
-			return res.cc(err)
-		}
+		if(err) return res.cc(err)
 		if(results.length!==1){
 			return res.cc('登录失败')	
 		}

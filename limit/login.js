@@ -5,6 +5,7 @@ aLphanum值为a-zA-Zg-9
 min是最小长度max是最大长度
 required是必填项
 pattern是正则 */
+
 // 账号
 const account = joi.string().alphanum().min(6).max(12).required()
 // 密码

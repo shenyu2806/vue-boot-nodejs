@@ -1,7 +1,7 @@
 ### v1.0.1
 ### 启动项目：
-node app.js
-nodemon app
+# node app.js
+# nodemon app
 ### 默认安装：
 ## node-v16.20.2-x64
 # 安装express

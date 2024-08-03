@@ -4,7 +4,7 @@
 	node app.js
 	nodemon app
 ### 默认安装：
-### node-v16.20.2-x64
+## node-v16.20.2-x64
 # 安装express
 cnpm i express -s
 # 安装nodemon 
@@ -17,12 +17,12 @@ cnpm i body-parser
 cnpm i mysql
 # 安装bcryptjs
 cnpm i bcryptjs
-#token
+# token
 cnpm i jsonwebtoken
 cnpm i express-jwt
-#express-joi
+# express-joi
 cnpm install @escook/express-joi
 cnpm install joi@17.4.0
-#上传头像
+# 上传头像
 cnpm install --save multer
 cnpm i fs

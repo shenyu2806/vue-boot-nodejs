@@ -18,7 +18,7 @@ exports.longReckon = (req,res)=>{
 	}],(err,result)=>{
 		if(err) return res.cc(err)
 		res.send({
-			status:0,
+			status:3,
 			message:"计入成功"	
 		})
 	})

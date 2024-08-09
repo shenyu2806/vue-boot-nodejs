@@ -76,6 +76,7 @@ exports.getuserInfo = (req,res) =>{
 	const sql ="select * from users where id = ?"
 	db.query(sql,req.body.id,(err,result)=>{
 		if(err) return res.cc(err)
+		result[0].status=3
 		result[0].password=""
 		res.send(result[0])
 	})

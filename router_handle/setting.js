@@ -9,7 +9,7 @@ exports.getReatCode = (req,res) =>{
 	db.query(sql,(err,result)=>{
 		if(err) return res.cc(err)
 		res.send({
-			status:0,
+			status:3,
 			rety:result[0].set_value
 		})
 	})
@@ -51,7 +51,7 @@ exports.getAllSwiper = (req,res) =>{
 			array.push(e.set_value)
 		})
 		res.send({
-			status:0,
+			status:3,
 			array
 			})
 	})
@@ -104,16 +104,35 @@ exports.getAllCompanyintroduce = (req,res) =>{
 	db.query(sql,(err,result)=>{
 		if(err) return res.cc(err)
 		res.send({
-			status:0,
+			status:3,
 			result
 		})
 	})
 }
 
 //-----------------其他设置
+//产品类别设置
+exports.setproductment = (req,res) =>{
+	const sql ="update setting set set_text = ? where set_name = '产品类别'"
+	db.query(sql,req.body.set_value,(err,result)=>{
+		if(err)return res.cc(err)
+		res.send({
+			status:0,
+			message:'产品类别设置成功'
+		})
+	})
+}
+//获取类别设置
+exports.getproductment = (req,res) =>{
+	const sql ="select set_text from setting where set_name = '产品类别'"
+	db.query(sql,(err,result)=>{
+		if(err) return res.cc(err)
+		res.send(result[0].set_text)
+	})
+}
 //部门设置
 exports.setDepartment = (req,res) =>{
-	const sql ="update setting set set_value = ? where set_name = '部门设置'"
+	const sql ="update setting set set_text = ? where set_name = '部门设置'"
 	db.query(sql,req.body.set_value,(err,result)=>{
 		if(err)return res.cc(err)
 		res.send({
@@ -124,9 +143,9 @@ exports.setDepartment = (req,res) =>{
 }
 //获取部门
 exports.getDepartment = (req,res) =>{
-	const sql ="select set_value from setting where set_name = '部门设置'"
+	const sql ="select set_text from setting where set_name = '部门设置'"
 	db.query(sql,(err,result)=>{
 		if(err) return res.cc(err)
-		res.send(result[0].set_value)
+		res.send(result[0].set_text)
 	})
 }

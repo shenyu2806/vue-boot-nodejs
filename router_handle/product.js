@@ -289,14 +289,26 @@ exports.deletProductForId = (req,res) =>{
 
 //删除 申请出库产品
 exports.deletProductOutId = (req,res) =>{
-	const sql = "delete from product_out where product_out_id = ?"
-	db.query(sql,req.body.product_out_id,(err,result)=>{
-		if(err) return res.cc(err)
-			res.send({
-				status:0,
-				message:'出库产品删除成功'
-			})
-	})
+	if(req.body.id == null){
+		const sql = "delete from product_out where apply_memo = '审核通过' "
+		db.query(sql,(err,result)=>{
+			if(err) return res.cc(err)
+				res.send({
+					status:0,
+					message:'清空已出库产品成功'
+				})
+		})
+	}else{
+		const sql = "delete from product_out where product_out_id = ?"
+		db.query(sql,req.body.product_out_id,(err,result)=>{
+			if(err) return res.cc(err)
+				res.send({
+					status:0,
+					message:'出库产品删除成功'
+				})
+		})
+	}
+	
 }
 
 //删除 出库产品

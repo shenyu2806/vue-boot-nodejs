@@ -12,7 +12,11 @@ const{
 
 //注册
 router.post('/register',expressJoi(login_limit),loginHasndler.register)
+
 //登录
 router.post('/login',expressJoi(login_limit),loginHasndler.login)
+
+// 路由表
+router.post('/returnMenuList',loginHasndler.returnMenuList)
 
 module.exports = router

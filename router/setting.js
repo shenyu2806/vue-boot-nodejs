@@ -31,6 +31,12 @@ router.post('/getCompanyintroduce',setHasndler.getCompanyintroduce)
 //获取所有公司信息
 router.post('/getAllCompanyintroduce',setHasndler.getAllCompanyintroduce)
 
+//产品类别设置
+router.post('/setproductment',setHasndler.setproductment)
+
+//获取类别设置
+router.post('/getproductment',setHasndler.getproductment)
+
 //部门设置
 router.post('/setDepartment',setHasndler.setDepartment)
 

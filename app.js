@@ -19,7 +19,7 @@ app.use(express.static("./public"))
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
  //一定要在路由之前，封装res.cc函数
-app.use(function (req, res, next) {
+app.use(function (req,res,next) {
     // status = 0 为成功； status = 1 为失败； 默认将 status 的值设置为 1，方便处理失败的情况
     res.cc = function (err, status = 1) {//status默认失败——传参
       res.send({
@@ -31,19 +31,21 @@ app.use(function (req, res, next) {
     }
     next()//流转关系传下去
   })
-
-const jwtconfig =require('./jwt_config/index.js')
-const {expressjwt:jwt} = require('express-jwt')
 const Joi = require('joi');
-/* app.use(jwt({
-	secret:jwtconfig.jwtSecretKey,algorithms:['ES256']
-}).unless({
-	path:[/^\/api\//]
-})) */
+//限制接口请求频率
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1分钟
+    max: 100, // 每1分钟最多100次请求
+    message: "请求过于频繁，请15分钟后再试。"
+});
+app.use(limiter);
 
 //路由
 const indexRouter =require('./router/index')
 app.use('/',indexRouter)
+const turRouter =require('./router/tury')
+app.use('/tur',turRouter)
 const loginRouter =require('./router/login')
 app.use('/api',loginRouter)
 const userinfoRouter =require('./router/userinfo')
@@ -57,13 +59,22 @@ app.use('/logs',logsRouter)
 
 //不符合joi规则的情况
 app.use((err,req,res,next)=>{
-	if(err instanceof Joi.ValidationError) return res.cc(err)
+	if(err instanceof Joi.ValidationError) {
+		res.send({
+			status:1,
+			message:"登录失败"
+		})
+	}
 })
-
-app.listen(9090, () => {
-	console.log('http://127.0.0.1:9090')
+//后台端口
+// 加载当前目录下的package.json文件
+const package = require('./package')
+const ops = require("./axios/index")
+app.listen(package.port, () => {
+	console.log("项目名称："+package.name)
+	console.log("版本号："+package.version)
+	ops.getipcode()
 })
-
 //打印错误，防止异常
 process.on('uncaughtException', function (err) { 
     //打印出错误 

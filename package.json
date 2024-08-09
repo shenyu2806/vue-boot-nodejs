@@ -1,15 +1,20 @@
 {
-  "name": "node-template",
-  "version": "1.0.2",
+  "name": "团星网管理后台",
+  "port":"9090",
+  "version": "1.0.3",
+  "scripts": {
+    "dev": "node app",
+    "serve": "nodemon main"
+  },
   "description": "",
-  "main": "app.js",
-  "scripts": {},
+  "main": "app",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@escook/express-joi": "^1.1.1",
     "array-flatten": "^3.0.0",
+    "axios": "^1.7.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -21,6 +26,7 @@
     "escape-html": "^1.0.3",
     "express": "^4.19.2",
     "express-jwt": "^8.4.1",
+    "express-rate-limit": "^7.4.0",
     "finalhandler": "^1.2.0",
     "fs": "^0.0.1-security",
     "function-bind": "^1.1.2",
@@ -32,6 +38,7 @@
     "jsonwebtoken": "^9.0.2",
     "merge-descriptors": "^2.0.0",
     "methods": "^1.1.2",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.4",
@@ -42,6 +49,7 @@
     "setprototypeof": "^1.2.0",
     "statuses": "^2.0.1",
     "unpipe": "^1.0.0",
+    "useragent": "^2.3.0",
     "utils-merge": "^1.0.1"
   }
 }

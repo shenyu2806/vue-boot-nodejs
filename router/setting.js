@@ -4,6 +4,11 @@ const router = express.Router()
 //导入处理模块
 const setHasndler = require('../router_handle/setting.js')
 
+//是否允许注册
+router.post('/getReatCode',setHasndler.getReatCode)
+
+//修改是否允许注册 0为允许
+router.post('/changeReatCode',setHasndler.changeReatCode)
 
 //上传轮播图
 router.post('/uploadSwiper',setHasndler.uploadSwiper)
@@ -25,5 +30,11 @@ router.post('/getCompanyintroduce',setHasndler.getCompanyintroduce)
 
 //获取所有公司信息
 router.post('/getAllCompanyintroduce',setHasndler.getAllCompanyintroduce)
+
+//部门设置
+router.post('/setDepartment',setHasndler.setDepartment)
+
+//获取部门
+router.post('/getDepartment',setHasndler.getDepartment)
 
 module.exports = router

@@ -7,9 +7,10 @@ required是必填项
 pattern是正则 */
 
 // 账号
-const account = joi.string().alphanum().min(6).max(12).required()
+const account = joi.string().min(2).max(12).required()
 // 密码
-const password = joi.string().pattern(/^(?![0-9]+$)[a-z0-9]{1,50}$/).min(6).max(12).required()
+const password = joi.string().min(6).max(12).required()
+//.pattern(/^(?![0-9]+$)[a-z0-9]{1,50}$/)
 
 exports.login_limit ={
 	

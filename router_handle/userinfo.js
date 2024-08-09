@@ -146,12 +146,257 @@ exports.verifyAccountAndEmail = (req,res) =>{
 exports.changePasswordInLogin = (req,res)=>{
 	const user =req.body
 	req.body.newpassword = bcrypt.hashSync(req.body.newpassword,10)
-	const sql='select password from users where id = ?'
+	const sql='update users set password = ? where id = ?'
 	db.query(sql,[user.newpassword,user.id],(err,result)=>{
-		if(err) return res.cc('错误')
+		if(err) return res.cc(err)
 		res.send({
 			status:0,
 			message:'更新成功'
 		})
+	})
+}
+
+//------------------------------用户管理
+//添加管理员
+exports.createAdmin = (req,res)=>{
+	const {
+		account,password,name,sex,department,email,identity
+	}=req.body
+	const sql = 'select * from users where account = ?'
+	db.query(sql,account,(err,result)=>{
+		if(err) return res.cc(err)
+		if(result.length>0){
+			res.send({
+			status:1,
+			message:'账号已经存在',
+			})
+		}else{
+			const hashpassword = bcrypt.hashSync(password,10)
+			const sql1='insert into users set ?'
+			const create_time = new Date()
+			db.query(sql1,{
+					account,
+					password:hashpassword,
+					name,
+					sex,
+					department,
+					email,
+					identity,
+					create_time,
+					status:0,//0为未冻结
+				},(err,results)=>{
+					if(results.affectedRows !==1){
+						return res.send({
+							status:1,
+							massage:'添加账号失败'
+						})
+					}
+					return res.send({
+						status:0,
+						massage:'添加账号成功'
+					})
+			})
+		}
+	})
+}
+
+//获取管理员列表
+exports.getAdminList = (req,res) =>{
+	const sql ='select * from users where identity = ?'
+	db.query(sql,req.body.identity,(err,result)=>{
+		if(err) return res.cc(err)
+		if(req.body.identity=="用户"){
+			result.forEach((e)=>{
+				e.password = ""
+				e.image_url = ""
+			})
+		}else{
+		result.forEach((e)=>{
+			e.password = ""
+			e.create_time = ""
+			e.image_url = ""
+		})
+		}
+		res.send(result)
+	})
+}
+//通过部门获取用户数据 接收department
+exports.searchDepartment = (req,res) =>{
+	const sql ="select * from users where department = ?"
+	db.query(sql,req.body.department,(err,result)=>{
+		if(err) return res.cc(err)
+		result.forEach((e)=>{
+			e.password = ""
+			e.create_time = ""
+			e.image_url = ""
+		})
+		res.send(result)
+	})
+}
+
+//编辑管理员列表
+exports.editAdmin= (req,res) =>{
+	const {
+		id,name,image_url,sex,department,email
+	} = req.body
+	const date = new Date()
+	const updateContent = {
+		id,
+		name,
+		image_url,
+		sex,
+		email,
+		department,
+		update_time:date,
+	}
+	const sql = 'update users set ? where id = ?'
+	db.query(sql,[updateContent,updateContent.id],(err,result)=>{
+		if(err) return res.cc(err)
+		res.send({
+		status:0,
+		message:'修改成功',
+		})
+	})
+}
+
+//对管理员降级
+exports.changeIdentityToUser = (req,res) =>{
+	const identity = "用户"
+	const date = new Date()
+	const sql = 'update users set identity = ? ,update_time = ? where id = ?'
+	db.query(sql,[identity,date,req.body.id],(err,result)=>{
+		if(err) return res.cc(err)
+		res.send({
+		status:0,
+		message:'降级成功',
+		})
+	})
+}
+
+//对用户赋权 identity id
+exports.changeIdentityToAdmin = (req,res) =>{
+	const date = new Date()
+	const sql = 'update users set identity = ? ,update_time = ? where id = ?'
+	db.query(sql,[req.body.identity,date,req.body.id],(err,result)=>{
+		if(err) return res.cc(err)
+		res.send({
+		status:0,
+		message:'赋权'+req.body.identity+'成功',
+		})
+	})
+}
+
+//对用户搜索 account
+exports.searchUser = (req,res) =>{
+	 let account = "%"+req.body.account+"%"
+	if(req.body.identity!=null){
+		const sql="select * from users where account like ? and identity = ? "
+		db.query(sql,[account,req.body.identity],(err,result)=>{
+			if(err) return res.cc(err)
+			if(req.body.identity=="用户"){
+				result.forEach((e)=>{
+					e.password = ""
+					e.image_url = ""
+				})
+			}else{
+				result.forEach((e)=>{
+				e.password = ""
+				e.create_time = ""
+				e.image_url = ""
+				})	
+			}
+			
+				res.send(result)
+		})
+	}else{
+		const sql="select * from users where account like ?"
+		db.query(sql,account,(err,result)=>{
+		if(err) return res.cc(err)
+		result.forEach((e)=>{
+			e.password = ""
+			e.create_time = ""
+			e.image_url = ""
+		})
+			res.send(result)
+		})
+	}
+}
+
+//冻结用户 把status = 1
+exports.banUser = (req,res) =>{
+	const date = new Date()
+	const status = 1
+	const sql='update users set status = ?,update_time = ? where id = ?'
+	db.query(sql,[status,date,req.body.id],(err,result)=>{
+		if(err) return res.cc(err)
+			res.send({
+			status:0,
+			message:'冻结成功',
+			})
+	})
+}
+
+//解冻用户 把status = 0
+exports.hotUser = (req,res) =>{
+	const date = new Date()
+	const status = 0
+	const sql='update users set status = ? ,update_time = ? where id = ?'
+	db.query(sql,[status,date,req.body.id],(err,result)=>{
+		if(err) return res.cc(err)
+			res.send({
+			status:0,
+			message:'解冻成功',
+			})
+	})
+}
+
+//获取冻结用户
+exports.getBanList = (req,res) =>{
+	const sql ="select * from users ,update_time = ? where status = '1'"
+	db.query(sql,(err,result)=>{
+		if(err) return res.cc(err)
+			res.send(result)
+	})
+}
+
+//删除用户 id account
+exports.deleteUser = (req,res) =>{
+	const sql ='delete from users where id = ? and account = ?'
+	db.query(sql,[req.body.id,req.body.account],(err,result)=>{
+			if(err) return res.cc(err)
+			res.send({
+			status:0,
+			message:'删除'+req.body.account+'成功',
+			})
+	})
+}
+//获取对应身份的人数 identity
+exports.getAdmingListLength = (req,res) =>{
+	const sql ="select * from users where identity = ?"
+	db.query(sql,req.body.identity,(err,result)=>{
+		if(err) return res.cc(err)
+		res.send({
+			length:result.length
+		})
+	})
+}
+//监听换页 pager identity
+exports.returnListData = (req,res) =>{
+	const sql =`select * from users where identity = ? and id >= ${req.body.zhid} limit 10 offset ${req.body.pager}`
+	db.query(sql,req.body.identity,(err,result)=>{
+		if(err) return res.cc(err)
+		res.send({
+			oid:result.length - 1,
+			result
+		})
+	})
+}
+//获取全部用户
+exports.getUsersList = (req,res) =>{
+	const number = req.body.pager
+	const sql ='select * from users'
+	db.query(sql,req.body.identity,(err,result)=>{
+		if(err) return res.cc(err)
+		res.send(result)
 	})
 }

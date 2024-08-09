@@ -42,12 +42,18 @@ const Joi = require('joi');
 })) */
 
 //路由
+const indexRouter =require('./router/index')
+app.use('/',indexRouter)
 const loginRouter =require('./router/login')
 app.use('/api',loginRouter)
 const userinfoRouter =require('./router/userinfo')
 app.use('/user',userinfoRouter)
 const setRouter =require('./router/setting')
 app.use('/set',setRouter)
+const proRouter =require('./router/product')
+app.use('/pro',proRouter)
+const logsRouter =require('./router/longs.js')
+app.use('/logs',logsRouter)
 
 //不符合joi规则的情况
 app.use((err,req,res,next)=>{

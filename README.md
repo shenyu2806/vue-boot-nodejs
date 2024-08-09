@@ -1,9 +1,14 @@
-### v1.0.1
+# V1.0.2
+### 数据库说明
+
+## Mysql
+## 先执行back_system.sql,再执行setting.sql
+
 ### 启动项目：
 # node app.js
 # nodemon app
 ### 默认安装：
-## node-v16.20.2-x64
+### node-v16.20.2-x64
 # 安装express
 cnpm i express -s
 # 安装nodemon 

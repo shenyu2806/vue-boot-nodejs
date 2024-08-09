@@ -3,6 +3,30 @@ const db =require('../db/index.js')
 //处理文件
 const fs = require('fs')
 
+//查询是否允许注册 0为允许
+exports.getReatCode = (req,res) =>{
+	const sql ='select set_value from setting where set_name = "允许注册" '
+	db.query(sql,(err,result)=>{
+		if(err) return res.cc(err)
+		res.send({
+			status:0,
+			rety:result[0].set_value
+		})
+	})
+}
+
+//修改是否允许注册 0为允许
+exports.changeReatCode = (req,res) =>{
+	const sql ='update setting set set_value = ? where set_name = "允许注册"'
+	db.query(sql,req.body.set_value,(err,result)=>{
+		if(err)return res.cc(err)
+		res.send({
+			status:0,
+			message:'修改注册成功'
+		})
+	})
+}
+
 //上传轮播图
 exports.uploadSwiper = (req,res) =>{
 	let oldName = req.files[0].filename
@@ -83,5 +107,26 @@ exports.getAllCompanyintroduce = (req,res) =>{
 			status:0,
 			result
 		})
+	})
+}
+
+//-----------------其他设置
+//部门设置
+exports.setDepartment = (req,res) =>{
+	const sql ="update setting set set_value = ? where set_name = '部门设置'"
+	db.query(sql,req.body.set_value,(err,result)=>{
+		if(err)return res.cc(err)
+		res.send({
+			status:0,
+			message:'部门设置成功'
+		})
+	})
+}
+//获取部门
+exports.getDepartment = (req,res) =>{
+	const sql ="select set_value from setting where set_name = '部门设置'"
+	db.query(sql,(err,result)=>{
+		if(err) return res.cc(err)
+		res.send(result[0].set_value)
 	})
 }

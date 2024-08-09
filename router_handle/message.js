@@ -1,0 +1,13 @@
+/* 
+message_title消息主题
+message_category消息类别
+message_publishdepartment消息发布部
+message_publish_name消息发布者
+message_receipt_object消息接收
+message_click_number消息查看数量
+message_content消息内容
+message_create_time消息发布时间
+message_update_time消息更新时间
+message_Level消息等级
+message_status0正常,1在回收站
+message_delete_time消息删除时间 */

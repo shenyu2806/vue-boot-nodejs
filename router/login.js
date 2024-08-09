@@ -10,8 +10,6 @@ const{
 	login_limit
 } = require('../limit/login.js')
 
-//测试
-router.get('/csmk',loginHasndler.csmk)
 //注册
 router.post('/register',expressJoi(login_limit),loginHasndler.register)
 //登录

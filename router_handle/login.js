@@ -4,21 +4,6 @@ const bcrypt =require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const jwtconfig = require('../jwt_config/index.js')
 
-exports.csmk = (req,res) => {
-	const reginfo = req.body
-// 测试 mysql 模块是否能正常工作（这段代码没有实质性功能只用于测试此模块）
-db.query('select 1', (err, results) => {
-    // mysql 模块工作期间报错了
-    if(err) return console.log(err.message);
-    // 能够正常执行 SQL 语句
-	return res.send({
-		status:1,
-		massage:results
-	})
-    // console.log(results);
-})
-// 注：终端执行后打印的结果是“[ RowDataPacket { '1': 1 } ]”则表示数据库连接正常
-}
 exports.register = (req,res) => {
 	const reginfo = req.body
 	if(!reginfo.account||!reginfo.password){

@@ -11,8 +11,8 @@
 </p>
 
 # 环境:
-1.Node.js v16.20.2
-2.mysql v5.7
+## Node.js v16.20.2
+## mysql v5.7
 # 启动项目：
 
 ```bash

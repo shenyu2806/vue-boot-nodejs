@@ -14,6 +14,8 @@
 Node.js v16.20.2
 mysql v5.7
 # 启动项目：
+
+```bash
 先修改./db目录下的mysql配置文件
 上传back_system_data.sql代码
 npm run dev 启动
@@ -48,3 +50,4 @@ cnpm install joi@17.4.0
 ## 上传头像
 cnpm install --save multer
 cnpm i fs
+```

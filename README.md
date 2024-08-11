@@ -1,5 +1,12 @@
 ### V1.0.3
 ### 项目介绍：
+
+）nodejs + express + cors + multer + body-parser
+
+# 环境:
+## Node.js v16.20.2
+## mysql v5.7
+
 <p>
 <img width="100%" src="https://gitee.com/fs529/bote_images_url/raw/master/vue-boot-back/bta1.png" alt="加载失败"/>
 </p>
@@ -10,20 +17,20 @@
 <img width="50%" src="https://gitee.com/fs529/bote_images_url/raw/master/vue-boot-back/bta3.png" alt="加载失败"/>
 </p>
 
-# 环境:
-## Node.js v16.20.2
-## mysql v5.7
 # 启动项目：
-
-```bash
 先修改./db目录下的mysql配置文件
 上传back_system_data.sql代码
+```bash
 npm run dev 启动
 npm run serve 调试启动
+```
 # 快速运行方法：
+```bash
 cnpm install pnpm
 pnpm i
+```
 # 默认安装：
+```bash
 node-v16.20.2-x64
 ## 安装express
 cnpm i express -s

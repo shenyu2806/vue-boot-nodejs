@@ -1,7 +1,7 @@
 ### V1.0.3
 ### 项目介绍：
 
-）nodejs + express + cors + multer + body-parser
+nodejs + express + cors + multer + body-parser
 
 # 环境:
 ## Node.js v16.20.2
